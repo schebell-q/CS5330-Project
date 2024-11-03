@@ -33,13 +33,13 @@ You can install the package directly from the GitHub repository. Installing from
 https url instead if needed.
 
 ```console
-pip install "git+ssh://git@github.com/schebell-q/CS5330-Project.git#egg=visual_odometry"
+pip install "git+ssh://git@github.com/schebell-q/CS5330-Project.git"
 ```
 
 or
 
 ```console
-pip install "git+https://github.com/schebell-q/CS5330-Project.git#egg=visual_odometry"
+pip install "git+https://github.com/schebell-q/CS5330-Project.git"
 ```
 
 ## Developer Installation
