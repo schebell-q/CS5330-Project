@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "visual-odometry"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = []
+authors = [
+  { name = "Jasen Levoy" },
+  { name = "Quinn Schebell" },
+]
+dependencies = []
+
+[tool.hatch.version]
+path = "src/visual_odometry/__about__.py"
