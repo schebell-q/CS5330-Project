@@ -48,7 +48,12 @@ Clone this repository and then use a developer mode install (editable install). 
 code directly and you can edit it without reinstalling.
 
 ```console
-pip install -e visual-odometry
+git clone git@github.com:schebell-q/CS5330-Project.git project
+cd project
+python3.12 -m venv venv
+. venv/bin/activate
+pip install -U pip
+pip install -e .
 ```
 
 # Usage
