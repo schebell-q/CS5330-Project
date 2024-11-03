@@ -13,7 +13,10 @@ authors = [
   { name = "Jasen Levoy" },
   { name = "Quinn Schebell" },
 ]
-dependencies = []
+dependencies = [
+  "numpy",
+  "opencv-python",
+]
 
 [tool.hatch.version]
 path = "src/visual_odometry/__about__.py"
