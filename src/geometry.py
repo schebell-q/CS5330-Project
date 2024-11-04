@@ -1,4 +1,4 @@
-from visual_odometry.correspondances import Correspondance
+from correspondances import Correspondance
 
 
 class ImageTransform:
