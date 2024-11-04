@@ -14,7 +14,7 @@ def main():
     keypoints = find_keypoints(images)
 
     # TODO find correpondances between keypoints in adjacent frames
-    correspondances = [find_correspondance(*pts) for pts in zip(keypoints[:-1], keypoints[1:], strict=False)]
+    correspondances = [find_correspondance(*pts) for pts in zip(keypoints[:-1], keypoints[1:], strict=True)]
 
     # TODO find transform between adjacent frames
     transforms = map(convert_correspondance_to_transform, correspondances)
