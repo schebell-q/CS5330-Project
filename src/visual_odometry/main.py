@@ -1,8 +1,8 @@
 from itertools import accumulate
 
-from correspondances import find_correspondance
-from geometry import convert_correspondance_to_transform, convert_transform_to_odometry
-from keypoints import find_keypoints
+from .correspondances import find_correspondance
+from .geometry import convert_correspondance_to_transform, convert_transform_to_odometry
+from .keypoints import find_keypoints
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     keypoints = find_keypoints(images)
 
     # TODO find correpondances between keypoints in adjacent frames
-    correspondances = [find_correspondance(*pts) for pts in zip(keypoints[:-1], keypoints[1:])]
+    correspondances = [find_correspondance(*pts) for pts in zip(keypoints[:-1], keypoints[1:], strict=False)]
 
     # TODO find transform between adjacent frames
     transforms = map(convert_correspondance_to_transform, correspondances)

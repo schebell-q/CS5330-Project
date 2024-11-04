@@ -19,4 +19,4 @@ dependencies = [
 ]
 
 [tool.hatch.version]
-path = "visual_odometry/__about__.py"
+path = "src/visual_odometry/__about__.py"

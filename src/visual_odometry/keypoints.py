@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Keypoint:
-    raise NotImplementedError
+    pass
 
 
 def find_keypoints(images: list[np.array]) -> list[Keypoint]:
