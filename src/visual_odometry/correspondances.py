@@ -1,4 +1,4 @@
-from src.visual_odometry.keypoints import Keypoint
+from .keypoints import Keypoint
 
 
 class Correspondance:
