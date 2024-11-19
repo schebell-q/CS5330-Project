@@ -5,6 +5,6 @@ class Keypoint:
     pass
 
 
-def find_keypoints(images: list[np.array]) -> list[Keypoint]:
+def find_keypoints(image: np.array) -> list[Keypoint]:
     # TODO
     raise NotImplementedError
