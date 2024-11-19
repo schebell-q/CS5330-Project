@@ -1,6 +1,9 @@
-from itertools import accumulate
+import argparse
+import itertools
+from pathlib import Path
 from typing import Iterable, Iterator
 
+import cv2
 import numpy as np
 
 from .correspondances import find_correspondance
@@ -46,15 +49,46 @@ class PoseEstimator(object):
         return pose_delta
 
 
-def main():
+def read_images(filename: Path) -> Iterable[np.array]:
+    if filename.is_dir():
+        # read all video/images in dir
+        return itertools.chain(*map(read_images, sorted(filename.iterdir())))
 
-    # TODO read in video or list of images
-    images = []
+    ext = filename.suffix.lower()
+    if ext in ['.png', '.jpeg', '.jpg']:
+        img = cv2.imread(str(filename.absolute()))
+        return [img]
+    if ext in ['.mp4', '.mov']:
+        # TODO read video
+        imgs = []
+        cap = cv2.VideoCapture(str(filename.absolute()))
+        while cap.isOpened():
+            status, frame = cap.read()
+            if status:
+                imgs.append(frame)
+            else:
+                break
+        cap.release()
+        return imgs
+    raise TypeError(f'unrecognized file type "{ext}"')
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog='vo',
+        description='Converts input images to an estimated trajectory and graphs',
+    )
+    parser.add_argument('filename', nargs='+', type=Path,
+                        help='path to a video or image, or directory of videos or images')
+    args = parser.parse_args()
+
+    # read in videos or images
+    images = list(itertools.chain(*map(read_images, args.filename)))
 
     pose_deltas = list(PoseEstimator(images))
 
     # TODO convert the list of deltas into displacement from start
-    trajectory = accumulate(pose_deltas)
+    trajectory = itertools.accumulate(pose_deltas)
 
     # TODO save trajectory and probably make plots
 
