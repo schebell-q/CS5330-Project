@@ -26,27 +26,28 @@ class PoseEstimator(object):
     def __iter__(self):
         return self
 
-    def __next__(self) -> PoseDelta:
-        new_image = next(self.image_generator)
+#I've commented out this code to see what happens when I commit this change to main
+    # def __next__(self) -> PoseDelta:
+    #     new_image = next(self.image_generator)
 
-        # TODO find keypoints in each frame
-        old_keypoints = self.last_keypoints
-        new_keypoints = find_keypoints(new_image)
+    #     # TODO find keypoints in each frame
+    #     old_keypoints = self.last_keypoints
+    #     new_keypoints = find_keypoints(new_image)
 
-        # TODO find correspondance between keypoints in adjacent frames
-        correspondance = find_correspondance(old_keypoints, new_keypoints)
+    #     # TODO find correspondance between keypoints in adjacent frames
+    #     correspondance = find_correspondance(old_keypoints, new_keypoints)
 
-        # TODO find transform between adjacent frames
-        transform = convert_correspondance_to_transform(correspondance)
+    #     # TODO find transform between adjacent frames
+    #     transform = convert_correspondance_to_transform(correspondance)
 
-        # TODO map transforms to camera displacement and rotation
-        pose_delta = convert_transform_to_odometry(transform)
+    #     # TODO map transforms to camera displacement and rotation
+    #     pose_delta = convert_transform_to_odometry(transform)
 
-        # Save data that will be used for computing next delta
-        self.last_image = new_image
-        self.last_keypoints = new_keypoints
+    #     # Save data that will be used for computing next delta
+    #     self.last_image = new_image
+    #     self.last_keypoints = new_keypoints
 
-        return pose_delta
+    #     return pose_delta
 
 
 def read_images(filename: Path) -> Iterable[np.array]:
