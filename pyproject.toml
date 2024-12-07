@@ -14,10 +14,14 @@ authors = [
   { name = "Quinn Schebell" },
 ]
 dependencies = [
+  "gluestick @ git+https://github.com/cvg/GlueStick.git",
   "matplotlib",
-  "numpy",
+  "numpy<2",
   "opencv-python",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.version]
 path = "src/visual_odometry/__about__.py"

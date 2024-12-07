@@ -1,3 +1,4 @@
 from .geometry import convert_correspondance_to_transform
 from .sift_correspondances import find_correspondance_sift
+from .gluestick_correspondances import find_correspondance_gluestick, run_gluestick
 from .main import main

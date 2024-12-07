@@ -10,6 +10,7 @@ import numpy as np
 from visual_odometry.plotting import plot_poses
 from .geometry import convert_correspondance_to_transform, PoseDelta
 from .sift_correspondances import find_correspondance_sift
+from .gluestick_correspondances import find_correspondance_gluestick
 
 logger = logging.getLogger(__name__)
 
@@ -56,8 +57,9 @@ class PoseEstimator(object):
         if self.feature_detector == 'sift':
             correspondance = find_correspondance_sift(self.last_image, new_image, self.max_num_features,
                                                       self.feature_distance_threshold)
-        elif self.feature_detector == 'cnn':
-            raise NotImplementedError('cnn feature detector is not implemented yet')
+        elif self.feature_detector == 'gluestick':
+            correspondance = find_correspondance_gluestick(self.last_image, new_image, self.max_num_features,
+                                                           self.max_num_features // 3)
         else:
             raise ValueError(f'unrecognized feature detector type "{self.feature_detector}"')
 
@@ -103,7 +105,8 @@ def main():
         prog='vo',
         description='Converts input images to an estimated trajectory and graphs',
     )
-    parser.add_argument('-f', '--feature-detector', nargs='?', default='sift', choices=['sift', 'cnn'],
+    parser.add_argument('-f', '--feature-detector', nargs='?', default='sift',
+                        choices=['sift', 'gluestick'],
                         help='the feature detector algorithm to use to identify keypoints')
     parser.add_argument('-d', '--feature-distance', nargs='?', type=float,
                         default=0.8,  # default number from pa5 vo.py
