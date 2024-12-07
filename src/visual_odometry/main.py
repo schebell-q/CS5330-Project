@@ -58,7 +58,8 @@ class PoseEstimator(object):
             correspondance = find_correspondance_sift(self.last_image, new_image, self.max_num_features,
                                                       self.feature_distance_threshold)
         elif self.feature_detector == 'gluestick':
-            correspondance = find_correspondance_gluestick(self.last_image, new_image, None)
+            correspondance = find_correspondance_gluestick(self.last_image, new_image, self.max_num_features,
+                                                           self.max_num_features // 3)
         else:
             raise ValueError(f'unrecognized feature detector type "{self.feature_detector}"')
 
