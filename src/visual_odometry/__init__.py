@@ -1,4 +1,3 @@
-from .correspondances import find_correspondance
-from .geometry import convert_correspondance_to_transform, convert_transform_to_odometry
-from .keypoints import find_keypoints
+from .geometry import convert_correspondance_to_transform
+from .sift_correspondances import find_correspondance_sift
 from .main import main

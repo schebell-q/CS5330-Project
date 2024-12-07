@@ -1,10 +1,11 @@
-from .keypoints import Keypoint
+from dataclasses import dataclass
+
+import numpy as np
 
 
-class Correspondance:
-    pass
-
-
-def find_correspondance(kp1: list[Keypoint], kp2: list[Keypoint]) -> Correspondance:
-    # TODO
-    raise NotImplementedError
+@dataclass
+class Correspondances:
+    im1: np.array
+    im2: np.array
+    p1: np.array
+    p2: np.array
