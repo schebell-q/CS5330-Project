@@ -57,6 +57,20 @@ pip install -e .
 ```
 
 # Usage
+Installing this module creates a `vo` command. Use `--help` for an explanation of the possible arguments.
 
-TBD
+```console
+vo --help
+```
+
+# Test data
+We included test data referenced in our report and presentation in the `data/` folder. These files are stored with git-lfs and additional setup is needed to fully download and use them.
+
+You may need to install git lfs to your system. Instructions can be found on their project page: https://git-lfs.com
+
+Next, configure git to use git-lfs.
+
+```console
+git lfs install
+```
 
