@@ -61,6 +61,7 @@ Installing this module creates a `vo` command. Use `--help` for an explanation o
 
 ```console
 vo --help
+```
 
 # Test data
 We included test data referenced in our report and presentation in the `data/` folder. These files are stored with git-lfs and additional setup is needed to fully download and use them.
