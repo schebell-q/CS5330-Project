@@ -58,5 +58,6 @@ pip install -e .
 
 # Usage
 
-TBD
+example call from ../project:~$
+python -m visual_odometry.main -f orb3 -v -o ~/Documents/School/NEU_CS5330/final_project/project/output/orb-trial_01 ~/Documents/School/NEU_CS5330/final_project/data/lab/lab_01_frames_dogleg1
 

@@ -37,16 +37,7 @@ def get_emat_from_fmat(F: np.array, K1: np.array, K2: np.array) -> np.array:
             the two cameras.
     """
 
-    E = None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
-
     E = K2.T @ F @ K1
-
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
 
     return E
 
@@ -65,6 +56,7 @@ def convert_correspondance_to_transform(correspondances: Correspondances, K: np.
     # convert coordinate frame 1 into coordinate frame 1
     # assume 1 meter translation for unknown scale (gauge ambiguity)
     i1Ti2 = np.linalg.inv(i2Ti1)
+
     return PoseDelta(i1Ti2)
 
 
@@ -86,9 +78,6 @@ def calculate_num_ransac_iterations(prob_success: float, sample_size: int, ind_p
 
     """
     num_samples = None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
 
     prob_no_bad = ind_prob_correct ** sample_size
     prob_some_bad = 1 - prob_no_bad
@@ -98,10 +87,6 @@ def calculate_num_ransac_iterations(prob_success: float, sample_size: int, ind_p
     # prob_some_bad ** num_samples = 1 - prob_success
     # num_samples * log(prob_some_bad) = log(1 - prob_success)
     num_samples = np.log(1 - prob_success) / np.log(prob_some_bad)
-
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
 
     return int(num_samples)
 
@@ -122,9 +107,6 @@ def normalize_points(points: np.array) -> (np.array, np.array):
     """
 
     points_normalized, T = None, None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
 
     N, _ = points.shape
     # (N, 2)
@@ -148,10 +130,6 @@ def normalize_points(points: np.array) -> (np.array, np.array):
     # (N, 3)
     points_normalized = points @ T.T
 
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
-
     return points_normalized, T
 
 
@@ -173,15 +151,7 @@ def unnormalize_F(F_norm: np.array, T_a: np.array, T_b: np.array) -> np.array:
     """
 
     F_orig = None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
-
     F_orig = T_b.T @ F_norm @ T_a
-
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
 
     return F_orig
 
@@ -203,9 +173,6 @@ def estimate_fundamental_matrix(points_a: np.array, points_b: np.array) -> np.ar
     """
 
     F = None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
 
     N, _ = points_a.shape
     a_hat, T_a = normalize_points(np.append(points_a, np.ones((N, 1)), axis=1))
@@ -238,10 +205,6 @@ def estimate_fundamental_matrix(points_a: np.array, points_b: np.array) -> np.ar
     F_rank2 = U @ np.diag(D) @ V
 
     F = unnormalize_F(F_rank2, T_a, T_b)
-
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
 
     return F
 
@@ -297,9 +260,6 @@ def ransac_fundamental_matrix(matches_a: np.array, matches_b: np.array,
     """
 
     best_F, inliers_a, inliers_b = None, None, None
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
 
     N, _ = matches_a.shape
     num_samples = calculate_num_ransac_iterations(ransac_prob_success, 4, 0.2)
@@ -336,9 +296,5 @@ def ransac_fundamental_matrix(matches_a: np.array, matches_b: np.array,
             inliers_b = matches_b[sub_inliers]
 
     logger.debug(f'RANSAC completed with {len(inliers_a)} matches')
-
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
 
     return best_F, inliers_a, inliers_b
