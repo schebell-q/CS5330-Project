@@ -63,6 +63,12 @@ Installing this module creates a `vo` command. Use `--help` for an explanation o
 vo --help
 ```
 
+This is an example of using the SIFT feature detector with a 95% RANSAC threshold to estimate the trajectory of `data/lab01_trim.MOV`.
+
+```console
+vo data/lab01_trim.MOV -r 0.95 -f sift -o lab01_trim.png
+```
+
 # Test data
 We included test data referenced in our report and presentation in the `data/` folder. These files are stored with git-lfs and additional setup is needed to fully download and use them.
 
