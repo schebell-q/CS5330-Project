@@ -40,9 +40,13 @@ class PoseEstimator(object):
 
         # TODO calibrate camera matrix
         # This is from PA5
-        fx = 1392.1069298937407
-        px = 980.1759848618066
-        py = 604.3534182680304
+        # fx = 1392.1069298937407  # also fy
+        # px = 980.1759848618066
+        # py = 604.3534182680304
+        fx = 1975
+        px = 1060
+        py = 514
+        print(f"fx:{fx}, px:{px}, py:{py}")
         self.camera_intrinsic_matrix = np.array([[fx, 0, px], [0, fx, py], [0, 0, 1]])
 
     def __iter__(self):
@@ -50,15 +54,13 @@ class PoseEstimator(object):
 
     def __next__(self) -> PoseDelta:
         new_image = next(self.image_generator)
-        self.num_frames_so_far += 1
         logger.info(f'Processing frame {self.num_frames_so_far}')
 
         # Compute correspondance between images
         if self.feature_detector == 'sift':
             correspondance = find_correspondance_sift(self.last_image, new_image, self.max_num_features,
                                                       self.feature_distance_threshold)
-                                                              # Compute correspondance between images
-        if self.feature_detector == 'orb3':
+        elif self.feature_detector == 'orb3':
             correspondance = find_correspondance_orb3(self.last_image, new_image, self.camera_intrinsic_matrix,  # Pass K 
                                                       self.max_num_features,
                                                       self.feature_distance_threshold)
@@ -70,11 +72,12 @@ class PoseEstimator(object):
 
         # Find transform from correspondance
         pose_delta = convert_correspondance_to_transform(correspondance, self.camera_intrinsic_matrix,
-                                                         self.ransac_prob_success)
+                                                         self.ransac_prob_success, self.num_frames_so_far)
 
         # Save data that will be used for computing next delta
         self.last_image = new_image
-
+        self.num_frames_so_far += 1
+        
         return pose_delta
 
 

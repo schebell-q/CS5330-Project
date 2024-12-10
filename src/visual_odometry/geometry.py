@@ -2,8 +2,8 @@ import cv2
 from dataclasses import dataclass
 import logging
 import numpy as np
-
-
+import logging
+from scipy.spatial.transform import Rotation
 from .correspondances import Correspondances
 
 logger = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ def get_emat_from_fmat(F: np.array, K1: np.array, K2: np.array) -> np.array:
 
 
 def convert_correspondance_to_transform(correspondances: Correspondances, K: np.array,
-                                        ransac_prob_success: float) -> PoseDelta:
+                                        ransac_prob_success: float, frame_index: int) -> PoseDelta:
     # Adapted from PA5 vo.py.
     F, matched_points_a, matched_points_b = ransac_fundamental_matrix(correspondances.p1, correspondances.p2,
                                                                       ransac_prob_success)
@@ -56,6 +56,23 @@ def convert_correspondance_to_transform(correspondances: Correspondances, K: np.
     # convert coordinate frame 1 into coordinate frame 1
     # assume 1 meter translation for unknown scale (gauge ambiguity)
     i1Ti2 = np.linalg.inv(i2Ti1)
+
+    # Extract Euler angles from the rotation matrix
+    # Note: 'zyx' means the rotation is applied in the order: first about x, then y, then z
+    rotation = Rotation.from_matrix(i2Ri1)
+    rz, ry, rx = rotation.as_euler('zyx', degrees=True)
+
+    # Log the rotation about the y-axis
+    logging.info(f"Rotation about x-axis from frame {frame_index} -> {frame_index + 1}: {rx:.2f} degrees")
+    logging.info(f"Rotation about y-axis from frame {frame_index} -> {frame_index + 1}: {ry:.2f} degrees")
+    logging.info(f"Rotation about z-axis from frame {frame_index} -> {frame_index + 1}: {rz:.2f} degrees")
+
+     # Extract the translation vector
+    translation = i1Ti2[:3, 3]  # Translation from frame i1 to frame i2
+
+    # Log the translation vector
+    logging.info(f"Translation from frame {frame_index} -> {frame_index + 1}: "
+                 f"tx={translation[0]:.2f} m, ty={translation[1]:.2f} m, tz={translation[2]:.2f} m")
 
     return PoseDelta(i1Ti2)
 
